@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cardiovascular heart disease prediction</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Cardiovascular heart disease prediction">
+  <meta name="author" content="J. Faxas">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Cardiovascular heart disease prediction</h1>
+    <h2></h2>
+    <p>J. Faxas<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Cardiovascular heart disease prediction.</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>A Cardiovascular heart disease (CHD) predictor has been developed for the Developing Data Products course. It predicts whether a person is at risk of contracting cardiovascular disease in the next 10 years.</p>
+
+<p>The logistic regression model was generated with data from the Framingham Heart Study, a long term prospective study of the etiology of cardiovascular
+disease among a population of free living subjects in the community of Framingham, Massachusetts.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Building the model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>To generated the regression model with the data we use the following code:</p>
+
+<pre><code class="r">framinghamLog&lt;-glm(TenYearCHD~male+age+cigsPerDay+totChol+
+                     sysBP+glucose,data=train,family = &quot;binomial&quot;)
+</code></pre>
+
+<p>Where TenYearCHD is the 10-year CHD prediction, male a binary variable that represents if the person is male or female, the age in years, cigsPerDay is the number of cigarettes smoked each day,totChol is Serum Total Cholesterol in mg/dL, sysBP is the Systolic Blood Pressure in mmHg and glucose is Casual serum glucose (mg/dL).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Final model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The final model looks like this:</p>
+
+<pre><code class="r">HeartDiseaseRisk&lt;-function(gender,age,cigsPerDay,totChol,sysBP,glucose){
+  Logy&lt;- -9.496692+0.440083*gender+0.066553*age+0.020706*cigsPerDay+
+    0.002897*totChol+0.018244*sysBP+0.009031*glucose
+  y&lt;-exp(Logy)
+  isRisk&lt;- y&gt;0.5
+  if (isRisk==1) {
+    print(&quot;You are UNDER RISK to develop a coronary heart disease in the next 10 years&quot;)} 
+    else 
+      {print(&quot;You have LOW RISK to develope a coronary heart disease in the next 10 years&quot;)}
+
+
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Test the model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In order to test the model, some values will submmit to the function. Then, a sentence with the prediction will be printed.</p>
+
+<pre><code class="r">  gender=1 #male
+  age= 30
+  cigsPerDay=20
+  totChol=250 # mg/dL
+  sysBP=120 # mmHG
+  glucose=150 # mg/dL
+
+  HeartDiseaseRisk(gender,age,cigsPerDay,totChol,sysBP,glucose)
+</code></pre>
+
+<pre><code>## [1] &quot;You have LOW RISK to develope a coronary heart disease in the next 10 years&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Cardiovascular heart disease prediction.'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Building the model'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Final model'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Test the model'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
